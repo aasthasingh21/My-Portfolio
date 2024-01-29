@@ -1,0 +1,76 @@
+import React, { useState } from 'react';
+import { FaBars, FaTimes} from 'react-icons/fa';
+import { Link } from 'react-scroll';
+
+const NavBar = () => {
+
+    const [nav, setNav] = useState(false); // to control menu icon
+
+    const links = [ // we make a const which has array of objects with the navbar data which is then mapped to get the value
+        {
+            id: 1,
+            link: "home"
+        },
+        {
+            id: 2,
+            link: "about"
+        },
+        {
+            id: 3,
+            link: "portfolio" // is also used on button(now Link) in home page
+        },
+        {
+            id: 4,
+            link: "experience"
+        },
+        {
+            id: 5,
+            link: "contact"
+        }
+
+    ]
+
+  return (
+        <div className='flex justify-between items-center w-full h-20 bg-black text-white px-4 fixed'>
+            <div>
+                <h1 className='text-5xl font-signature ml-2'>Aastha Singh</h1>
+            </div>
+            
+            <ul className='hidden md:flex'> {/* it hides the section if width < 768px (hover and see to check the property)  */}
+                {links.map(({id, link}) => ( // we get id, link by object destructuring and we map the data, and all the link are display by using id as the key 
+                    <li key={id} 
+                        className='px-4 cursor-pointer capitalize font-medium text-gray-500 hover:scale-105 duration-200'>
+                        
+                        <Link to={link} smooth duration={500}>{link}</Link> {/* we use link tag to link all the menu to the pages */}
+
+                        {/* as we have more items in the navbar so instead of copying pasting it we make use of mpping and looping */}
+                    </li>
+                ))}
+            </ul>
+
+            {/* switching the icons */}
+            <div onClick={() => setNav(!nav)} className='cursor-pointer pr-4 z-10 text-gray-500 md:hidden'> {/*  when clicked if the state true make it false and vice-verca */}
+                {nav ? <FaTimes size={30} /> : <FaBars size={30} />}  {/* if nav is open show times(X) : if closed show (---) */}
+            </div>
+
+            {/* media query for mobile application */}
+
+            { nav && ( // so if nav is true then show this page otherwise dont
+                <ul className='flex flex-col justify-center items-center absolute top-0 left-0 w-full h-screen bg-gradient-to-b
+                    from-black to-gray-800 text-gray-500'>
+                    {links.map(({id, link}) => ( // we get id, link by object destructuring and we map the data, and all the link are display by using id as the key 
+                        <li key={id} 
+                            className='px-4 cursor-pointer capitalize py-6 text-4xl'>
+                            <Link onClick={() => setNav(!nav)} to={link} smooth duration={500}>{link}</Link> {/* we use onclick to change the state when clicked on any of the manu to that page directly */}
+                            {/* as we have more items in the navbar so instead of copying pasting it we make use of mpping and looping */}
+                        </li>
+                    ))}
+                </ul>
+            )}
+
+        </div>
+    
+    )
+}
+
+export default NavBar;
